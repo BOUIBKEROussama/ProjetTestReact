@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import type {Node} from 'react';
 
-import Page2 from '../Page/Page2'
-import Profil from '../Page/Profil'
-import About from '../Page/About'
-import PageContainer from '../Page/PageContainer'
 
 import {
   SafeAreaView,
@@ -22,16 +18,30 @@ export default function NavBar({ navigation }) {
         let screenHeight = Dimensions.get('window').height;
 
         return(
-            <View style={{displa:'flex', flexDirection:'row', backgroundColor:'blue',height:50}}>
-                <TouchableOpacity onPress={() => navigation.navigate("Profil")} style={{flexGrow:2}}>
-                    <Text>Profil</Text>
+            <View style={{displa:'flex', flexDirection:'row', backgroundColor:'#40cbe7',height:50}}>
+                <TouchableOpacity onPress={() => navigation.navigate("Profil")} style={styles.bouton}>
+                    <Text style={styles.boutonText}>Profil</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("PageContainer")} style={{flexGrow:2}}>
-                    <Text>Page</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("PageContainer")} style={styles.bouton}>
+                    <Text style={styles.boutonText}>Page</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("About")} style={{flexGrow:2}}>
-                    <Text >About Us</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("About")} style={styles.bouton}>
+                    <Text style={styles.boutonText}>About Us</Text>
                 </TouchableOpacity>
             </View>
         );
 }
+
+
+const styles = StyleSheet.create({
+    bouton:{
+        flexGrow:2,
+        borderWidth:1,
+    },
+  boutonText: {
+    color:'white',
+    textAlign:'center',
+    marginTop:10,
+
+  },
+});
