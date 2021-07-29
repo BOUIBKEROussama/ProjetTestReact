@@ -15,7 +15,7 @@ import NavBar from '../Component/NavBar'
 import SQLite from 'react-native-sqlite-storage'
 
 
-const db = SQLite.openDatabase({location:"default",name:"database"},()=>{
+const db = SQLite.openDatabase({location:"default",name:"database2"},()=>{
     console.log("ok");
     },(err)=>{console.log("error")});
 
@@ -25,19 +25,25 @@ export default function Profil({ navigation }) {
     const [userListe, onChangeUserList] = React.useState(['test','root','utilisateur123']);
 
     React.useEffect(()=>{
+        onCreate();
 
+
+    },[])
+
+
+
+    const onCreate = ()=>{
         db.transaction((tx)=>{
             tx.executeSql("CREATE TABLE IF NOT EXISTS Users (Name VARCHAR(255) PRIMARY KEY AUTOINCREMENT)",[],(tx,result)=>{
                 console.log("table Users créer ")
                 console.log("tx",tx)
                 console.log("result",result)
+            },(tx,error)=>{
+                Alert.alert("erreur create")
+                console.log(error)
             })
         })
-    },[])
-
-
-
-
+    }
 
 
     const insert = (username) =>{
@@ -45,13 +51,17 @@ export default function Profil({ navigation }) {
         if(username.length == 0){
             Alert.alert("Nom d'utilisateur ne peut pas etre vide");
         }else{
-
+            onChangeUserList(userListe => [...userListe, username]);
             try{
-               db.transaction((tx)=>{
+               db.transaction(tx =>{
                     tx.executeSql("INSERT INTO Users (Name) VALUES (?)"),[username],(tx, results) => {
 
                         Alert.alert('Results', results.rowsAffected);
+
                     }
+                },(tx,error)=>{
+                    Alert.alert("SQL erreur")
+                    console.log(error);
                 })
 
             }catch(error){
@@ -76,7 +86,7 @@ export default function Profil({ navigation }) {
     }
 
     const sendList = () =>{
-            onChangeUserList(userListe => [...userListe, user]);
+            //onChangeUserList(userListe => [...userListe, user]);
             insert(user)
         }
 
